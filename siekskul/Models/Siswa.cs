@@ -7,15 +7,15 @@ namespace siekskul.Models
     {
         [Key]
         public int SiswaId { get; set; }
-        public int NIS { get; set; }
-        public string Kelas { get; set; }
-        public string JenisKelamin { get; set; }
-        public string Agama { get; set; }
-        public string TempatLahir { get; set; }
-        public DateOnly TanggalLahir { get; set; }
-        public string Alamat { get; set; }
-        public string NamaAyah { get; set; }
-        public string NamaIbu { get; set; }
+        public int? NIS { get; set; }
+        public string? Kelas { get; set; }
+        public string? JenisKelamin { get; set; }
+        public string? Agama { get; set; }
+        public string? TempatLahir { get; set; }
+        public DateTime? TanggalLahir { get; set; }
+        public string? Alamat { get; set; }
+        public string? NamaAyah { get; set; }
+        public string? NamaIbu { get; set; }
 
 
         [ForeignKey("User")]

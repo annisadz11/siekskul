@@ -24,6 +24,7 @@ namespace siekskul.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewData["Layout"] = "_AuthLayout"; 
             return View();
         }
 
@@ -52,7 +53,9 @@ namespace siekskul.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
-                    new Claim("UserId", user.UserId.ToString())
+                    new Claim("UserId", user.UserId.ToString()),
+                    new Claim("FullName", user.FullName)
+
                 };
 
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -92,20 +95,6 @@ namespace siekskul.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        /*private bool VerifyPassword(string inputPassword, string storedPassword)
-        {
-            // Jika password belum di-hash, lakukan perbandingan langsung
-            if (!storedPassword.StartsWith("$"))
-            {
-                return inputPassword == storedPassword;
-            }
-
-            // Jika sudah di-hash, gunakan PasswordHasher
-            var result = _passwordHasher.VerifyHashedPassword(null, storedPassword, inputPassword);
-            return result == PasswordVerificationResult.Success || result == PasswordVerificationResult.SuccessRehashNeeded;
-        }*/
-
-
         //register
         [HttpGet]
         public IActionResult Register()
@@ -131,6 +120,19 @@ namespace siekskul.Controllers
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
+                
+                if (user.Role == UserRole.Siswa)
+                {
+                    var siswa = new Siswa { UserId = user.UserId };
+                    _context.Siswas.Add(siswa);
+                }
+                else if (user.Role == UserRole.Guru)
+                {
+                    var guru = new Guru { UserId = user.UserId };
+                    _context.Gurus.Add(guru);
+                }
+                await _context.SaveChangesAsync();
+
                 // Otomatis login setelah registrasi
                 await LoginUser(user);
 
@@ -142,11 +144,12 @@ namespace siekskul.Controllers
         private async Task LoginUser(User user)
         {
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, user.Username),
-        new Claim(ClaimTypes.Role, user.Role.ToString()),
-        new Claim("UserId", user.UserId.ToString())
-    };
+{
+    new Claim(ClaimTypes.Name, user.Username),
+    new Claim(ClaimTypes.Role, user.Role.ToString()),
+    new Claim("UserId", user.UserId.ToString()),
+    new Claim("FullName", user.FullName)
+};
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

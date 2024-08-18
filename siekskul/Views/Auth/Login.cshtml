@@ -1,41 +1,51 @@
 ﻿@model siekskul.ViewModels.LoginViewModel
 @{
+    Layout = "_AuthLayout";
+}
+@{
     ViewData["Title"] = "Login";
 }
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card mt-5">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Login</h2>
-                    <form asp-action="Login" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="mb-3">
-                            <label asp-for="Username" class="form-label"></label>
-                            <input asp-for="Username" class="form-control" />
-                            <span asp-validation-for="Username" class="text-danger"></span>
+<body>
+    <!-- Container start -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-5 col-sm-6 col-12">
+                <form asp-action="Login" asp-controller="Auth" method="post">
+                    <div class="border border-dark rounded-2 p-4 mt-5">
+                        <div class="login-form">
+                            <a href="index.html" class="mb-4 d-flex">
+                                <img src="~/assets/images/logodb.svg" class="img-fluid login-logo" alt="Nyke Admin" />
+                            </a>
+                            <h5 class="fw-light mb-5">Masuk ke Sistem Informasi Ekstrakurikuler</h5>
+                            <div class="mb-3">
+                                <label asp-for="Username" class="form-label"></label>
+                                <input asp-for="Username" class="form-control" placeholder="Masukkan username Anda" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label"></label>
+                                <input asp-for="Password" class="form-control" placeholder="Masukkan password Anda" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>                            
+                            <div class="d-grid py-3 mt-4">
+                                <button type="submit" class="btn btn-primary">Log in</button>
+                            </div>
+
+                            <div class="text-center pt-4">
+                                <span>Belum punya Akun?</span>
+                                <a asp-action="Register" asp-controller="Auth" class="btn btn-secondary">Register</a>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        @* <div class="mb-3 form-check">
-                            <input asp-for="RememberMe" class="form-check-input" />
-                            <label asp-for="RememberMe" class="form-check-label"></label>
-                        </div> *@
-                        <div class="d-grid gap-2 mt-5 mb-3">
-                            <button type="submit" class="btn btn-primary">Log in</button>
-                            <a asp-action="Register" asp-controller="Auth" class="btn btn-secondary">Register</a>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
+    <!-- Container end -->
+</body>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+

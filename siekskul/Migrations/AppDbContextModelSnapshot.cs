@@ -31,25 +31,21 @@ namespace siekskul.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GuruId"));
 
                     b.Property<string>("Agama")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BidangEkstrakurikuler")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JenisKelamin")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NIP")
+                    b.Property<int?>("NIP")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("TanggalLahir")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("TanggalLahir")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TempatLahir")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -71,37 +67,30 @@ namespace siekskul.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SiswaId"));
 
                     b.Property<string>("Agama")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Alamat")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JenisKelamin")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Kelas")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NIS")
+                    b.Property<int?>("NIS")
                         .HasColumnType("int");
 
                     b.Property<string>("NamaAyah")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NamaIbu")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("TanggalLahir")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("TanggalLahir")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TempatLahir")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")

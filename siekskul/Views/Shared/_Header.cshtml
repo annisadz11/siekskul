@@ -1,45 +1,65 @@
-﻿﻿<header class="header">
-    <div class="toggle-btns">
-        <a id="toggle-sidebar" href="#">
-            <i class="icon-menu1"></i>
-        </a>
-        <a id="pin-sidebar" href="#">
-            <i class="icon-menu1"></i>
+﻿@using System.Security.Claims
+<!-- App header starts -->
+<div class="app-header d-flex align-items-center">
+    <!-- Toggle buttons start -->
+    <div class="d-flex">
+        <button class="btn btn-primary me-2 toggle-sidebar" id="toggle-sidebar">
+            <i class="bi bi-chevron-left fs-5"></i>
+        </button>
+        <button class="btn btn-primary me-2 pin-sidebar" id="pin-sidebar">
+            <i class="bi bi-chevron-left fs-5"></i>
+        </button>
+    </div>
+    <!-- Toggle buttons end -->
+    <!-- App brand sm start -->
+    <div class="app-brand-sm d-md-none d-sm-block">
+        <a href="index.html">
+            <img src="~/assets/images/logo-sm.svg" class="logo" alt="Bootstrap Gallery">
         </a>
     </div>
-    <div class="header-items">
-        <!-- Header actions start -->
-        <ul class="header-actions">
-            <li class="dropdown">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a href="#" id="userSettings" class="user-settings" data-bs-toggle="dropdown" aria-haspopup="true">
-                        <span class="icon-user"></span>
-                        <span class="avatar"></span>
-                        <span class="">Hello, @User.Identity?.Name</span>
-                        <span class="avatar"></span>
+    <!-- App brand sm end -->
+    <!-- App header actions start -->
+    <div class="header-actions">
+        <div class="d-lg-block d-none me-2">
+            <!-- Search container start -->
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" />
+                <button class="btn btn-outline-primary" type="button">
+                    <i class="bi bi-search fs-5"></i>
+                </button>
+            </div>
+            <!-- Search container end -->
+        </div>
+        <div class="dropdown ms-3">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a id="userSettings" class="dropdown-toggle d-flex py-2 align-items-center text-decoration-none"
+                   href="#!" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="d-none d-md-block me-2">@User.Identity.Name (@User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value)</span>                    
+                    <img src="~/assets/images/user.png" class="rounded-circle img-3x" alt="Bootstrap Gallery" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-end shadow">
+                    <a class="dropdown-item d-flex align-items-center" asp-controller="Profile" asp-action="Index">
+                        <i class="bi bi-person fs-4 me-2"></i>Profile
+                    </a>                    <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                        <i class="bi bi-box-arrow-right fs-4 me-2"></i>Logout
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userSettings">
-                        <div class="header-profile-actions">
-                            <div class="header-user-profile">
-                                <div class="header-user">
-                                </div>
-                                <h5>Hello, @User.Identity?.Name</h5>
-                                <p>@User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value</p>
-                            </div>
-                            <a href="user-profile.html"><i class="icon-user"></i> My Profile</a>
-                            <form asp-controller="Auth" asp-action="Logout" method="post">
-                                <button type="submit" class="dropdown-item"><i class="icon-log-out1"></i> Sign Out</button>
-                            </form>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <a asp-controller="Auth" asp-action="Login" class="nav-link">Login</a>
-                }
-            </li>
-        </ul>
-        <!-- Header actions end -->
+                </div>
+                <form id="logoutForm" asp-controller="Auth" asp-action="Logout" method="post" style="display: none;"></form>
+            }
+            else
+            {
+                <a class="btn btn-primary" asp-controller="Auth" asp-action="Login">Login</a>
+            }
+        </div>
     </div>
-</header>
+    <!-- App header actions end -->
+</div>
+
+@* <a class="dropdown-item d-flex align-items-center" href="settings.html">
+                    <i class="bi bi-gear fs-4 me-2"></i>Account Settings
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="login.html">
+                    <i class="bi bi-escape fs-4 me-2"></i>Logout
+                </a>
+ *@ 

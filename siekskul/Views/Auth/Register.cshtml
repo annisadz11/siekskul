@@ -1,53 +1,67 @@
 ﻿@model siekskul.ViewModels.RegisterViewModel
 @{
+    Layout = "_AuthLayout";
+}
+@{
     ViewData["Title"] = "Register";
 }
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card mt-5">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">Register</h2>
-                    <form asp-action="Register" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="mb-3">
-                            <label asp-for="Username" class="form-label"></label>
-                            <input asp-for="Username" class="form-control" />
-                            <span asp-validation-for="Username" class="text-danger"></span>
+
+<body>
+    <!-- Container start -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-5 col-sm-6 col-12">
+                <form asp-action="Register" asp-controller="Auth" method="post">
+                    <div class="border border-dark rounded-2 p-4 mt-5">
+                        <div class="register-form">
+                            <a href="index.html" class="mb-4 d-flex">
+                                <img src="~/assets/images/logodb.svg" class="img-fluid login-logo" alt="Nyke Admin" />
+                            </a>
+                            <h5 class="fw-light mb-5">Register ke Sistem Informasi Ekstrakurikuler</h5>
+                            <div class="mb-3">
+                                <label asp-for="Username" class="form-label"></label>
+                                <input asp-for="Username" class="form-control"  />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label"></label>
+                                <input asp-for="Password" class="form-control"  />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="ConfirmPassword" class="form-label"></label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="FullName" class="form-label"></label>
+                                <input asp-for="FullName" class="form-control" />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Role" class="form-label"></label>
+                                <select asp-for="Role" asp-items="Html.GetEnumSelectList<siekskul.Models.UserRole>()" class="form-select">
+                                    <option selected disabled>Pilih Role</option>
+                                </select>
+                                <span asp-validation-for="Role" class="text-danger"></span>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                            <div class="text-center pt-4">
+                                <span>Sudah ada Akun?</span>
+                                <a asp-action="Login" asp-controller="Auth" class="btn btn-secondary">Login</a>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="ConfirmPassword" class="form-label"></label>
-                            <input asp-for="ConfirmPassword" class="form-control" />
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="FullName" class="form-label"></label>
-                            <input asp-for="FullName" class="form-control" />
-                            <span asp-validation-for="FullName" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Role" class="form-label"></label>
-                            <select asp-for="Role" asp-items="Html.GetEnumSelectList<siekskul.Models.UserRole>()" class="form-select">
-                                <option selected disabled>Select Role</option>
-                            </select>
-                            <span asp-validation-for="Role" class="text-danger"></span>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Register</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
+    <!-- Container end -->
 
-@section Scripts {
+</body>
+    @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
