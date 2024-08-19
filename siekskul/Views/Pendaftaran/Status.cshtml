@@ -1,10 +1,6 @@
 ﻿@model IEnumerable<siekskul.Models.PendaftaranEkstrakurikuler>
 
-@{
-    ViewData["Title"] = "Status Pendaftaran";
-}
-
-<h1>Status Pendaftaran Ekstrakurikuler</h1>
+<h2>Status Pendaftaran Ekstrakurikuler</h2>
 
 <table class="table">
     <thead>
@@ -25,3 +21,5 @@
         }
     </tbody>
 </table>
+
+<a asp-controller="Ekstrakurikuler" asp-action="ListForSiswa" class="btn btn-primary">Daftar Ekstrakurikuler Baru</a>

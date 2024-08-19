@@ -1,27 +1,13 @@
-﻿@model siekskul.Models.Ekstrakurikuler
+﻿@* @model siekskul.Models.Ekstrakurikuler
 
-@{
-    ViewData["Title"] = "Daftar Ekstrakurikuler";
-}
+<h2>Daftar Ekstrakurikuler</h2>
 
-<h1>Daftar Ekstrakurikuler</h1>
+<h3>@Model.Nama</h3>
+<p>@Model.Deskripsi</p>
+<p>Pembimbing: @Model.Guru.User.FullName</p>
 
-<h3>Apakah Anda yakin ingin mendaftar ke ekstrakurikuler ini?</h3>
-<div>
-    <h4>@Model.Nama</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">Nama</dt>
-        <dd class="col-sm-10">@Model.Nama</dd>
-        <dt class="col-sm-2">Deskripsi</dt>
-        <dd class="col-sm-10">@Model.Deskripsi</dd>
-        <dt class="col-sm-2">Pembimbing</dt>
-        <dd class="col-sm-10">@Model.Guru.User.FullName</dd>
-    </dl>
-
-    <form asp-action="DaftarConfirm">
-        <input type="hidden" asp-for="EkstrakurikulerId" />
-        <input type="submit" value="Daftar" class="btn btn-primary" /> |
-        <a asp-action="Index">Kembali ke Daftar</a>
-    </form>
-</div>
+<form asp-action="DaftarConfirm" asp-route-id="@Model.EkstrakurikulerId" method="post">
+    <p>Apakah Anda yakin ingin mendaftar untuk ekstrakurikuler ini?</p>
+    <button type="submit" class="btn btn-primary">Daftar</button>
+    <a asp-action="ListForSiswa" class="btn btn-secondary">Batal</a>
+</form> *@

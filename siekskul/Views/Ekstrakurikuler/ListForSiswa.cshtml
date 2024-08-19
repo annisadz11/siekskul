@@ -1,44 +1,27 @@
-﻿@model IEnumerable<siekskul.Models.Ekstrakurikuler>
+﻿@* @model IEnumerable<siekskul.Models.Ekstrakurikuler>
 
-@{
-    ViewData["Title"] = "List Ekstrakurikuler";
-}
+<h2>Daftar Ekstrakurikuler untuk Siswa</h2>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">List Ekstrakurikuler</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Deskripsi</th>
-                                    <th>Pembimbing</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>@item.Nama</td>
-                                        <td>@item.Deskripsi</td>
-                                        <td>@item.Guru.User.FullName</td>
-                                        <td>
-                                            <a asp-controller="Pendaftaran" asp-action="Daftar" asp-route-id="@item.EkstrakurikulerId" class="btn btn-primary btn-sm">Daftar</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Deskripsi</th>
+            <th>Pembimbing</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nama</td>
+                <td>@item.Deskripsi</td>
+                <td>@item.Guru.User.FullName</td>
+                <td>
+                    <a asp-action="Daftar" asp-route-id="@item.EkstrakurikulerId">Daftar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@

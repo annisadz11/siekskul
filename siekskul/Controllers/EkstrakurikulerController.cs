@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using siekskul.Data;
 using siekskul.Models;
-using System.Security.Claims;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace siekskul.Controllers
 {
+    [Authorize(Roles = "Guru")]
     public class EkstrakurikulerController : Controller
     {
         private readonly AppDbContext _context;
@@ -17,6 +19,7 @@ namespace siekskul.Controllers
             _context = context;
         }
 
+        // GET: Ekstrakurikuler
         public async Task<IActionResult> Index()
         {
             var ekstrakurikuler = await _context.Ekstrakurikuler
@@ -26,6 +29,7 @@ namespace siekskul.Controllers
             return View(ekstrakurikuler);
         }
 
+        // GET: Ekstrakurikuler/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,7 +40,6 @@ namespace siekskul.Controllers
             var ekstrakurikuler = await _context.Ekstrakurikuler
                 .Include(e => e.Guru)
                 .ThenInclude(g => g.User)
-                .Include(e => e.Jadwal)
                 .FirstOrDefaultAsync(m => m.EkstrakurikulerId == id);
 
             if (ekstrakurikuler == null)
@@ -46,17 +49,112 @@ namespace siekskul.Controllers
 
             return View(ekstrakurikuler);
         }
-        [Authorize(Roles = "Siswa")]
-        public async Task<IActionResult> ListForSiswa()
+
+        // GET: Ekstrakurikuler/Create
+        public IActionResult Create()
         {
-            var ekstrakurikuler = await _context.Ekstrakurikuler
-                .Include(e => e.Guru)
-                .ThenInclude(g => g.User)
-                .ToListAsync();
+            ViewBag.GuruList = new SelectList(_context.Gurus.Include(g => g.User), "GuruId", "User.FullName");
+            return View();
+        }
+
+        // POST: Ekstrakurikuler/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Nama,Deskripsi,GuruId")] Ekstrakurikuler ekstrakurikuler)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(ekstrakurikuler);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.GuruList = new SelectList(_context.Gurus.Include(g => g.User), "GuruId", "User.FullName", ekstrakurikuler.GuruId);
             return View(ekstrakurikuler);
         }
 
-        [Authorize(Roles = "Guru")]
+        // GET: Ekstrakurikuler/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ekstrakurikuler = await _context.Ekstrakurikuler.FindAsync(id);
+            if (ekstrakurikuler == null)
+            {
+                return NotFound();
+            }
+            ViewBag.GuruList = new SelectList(_context.Gurus.Include(g => g.User), "GuruId", "User.FullName", ekstrakurikuler.GuruId);
+            return View(ekstrakurikuler);
+        }
+
+        // POST: Ekstrakurikuler/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("EkstrakurikulerId,Nama,Deskripsi,GuruId")] Ekstrakurikuler ekstrakurikuler)
+        {
+            if (id != ekstrakurikuler.EkstrakurikulerId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(ekstrakurikuler);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EkstrakurikulerExists(ekstrakurikuler.EkstrakurikulerId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.GuruList = new SelectList(_context.Gurus.Include(g => g.User), "GuruId", "User.FullName", ekstrakurikuler.GuruId);
+            return View(ekstrakurikuler);
+        }
+
+        // GET: Ekstrakurikuler/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ekstrakurikuler = await _context.Ekstrakurikuler
+                .Include(e => e.Guru)
+                .ThenInclude(g => g.User)
+                .FirstOrDefaultAsync(m => m.EkstrakurikulerId == id);
+            if (ekstrakurikuler == null)
+            {
+                return NotFound();
+            }
+
+            return View(ekstrakurikuler);
+        }
+
+        // POST: Ekstrakurikuler/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var ekstrakurikuler = await _context.Ekstrakurikuler.FindAsync(id);
+            _context.Ekstrakurikuler.Remove(ekstrakurikuler);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Ekstrakurikuler/PendaftaranList
         public async Task<IActionResult> PendaftaranList()
         {
             var pendaftaran = await _context.PendaftaranEkstrakurikuler
@@ -67,51 +165,26 @@ namespace siekskul.Controllers
             return View(pendaftaran);
         }
 
-        [Authorize(Roles = "Siswa")]
-        public async Task<IActionResult> Daftar(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var ekstrakurikuler = await _context.Ekstrakurikuler
-                .Include(e => e.Guru)
-                .FirstOrDefaultAsync(m => m.EkstrakurikulerId == id);
-
-            if (ekstrakurikuler == null)
-            {
-                return NotFound();
-            }
-
-            return View(ekstrakurikuler);
-        }
-
+        // POST: Ekstrakurikuler/UpdateStatus
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Siswa")]
-        public async Task<IActionResult> DaftarConfirm(int id)
+        public async Task<IActionResult> UpdateStatus(int id, string status)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var siswa = await _context.Siswas.FirstOrDefaultAsync(s => s.UserId.ToString() == userId);
-
-            if (siswa == null)
+            var pendaftaran = await _context.PendaftaranEkstrakurikuler.FindAsync(id);
+            if (pendaftaran == null)
             {
                 return NotFound();
             }
 
-            var pendaftaran = new PendaftaranEkstrakurikuler
-            {
-                SiswaId = siswa.SiswaId,
-                EkstrakurikulerId = id,
-                TanggalPendaftaran = DateTime.Now,
-                Status = StatusPendaftaran.Menunggu
-            };
-
-            _context.PendaftaranEkstrakurikuler.Add(pendaftaran);
+            pendaftaran.Status = (StatusPendaftaran)Enum.Parse(typeof(StatusPendaftaran), status);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(PendaftaranList));
+        }
+
+        private bool EkstrakurikulerExists(int id)
+        {
+            return _context.Ekstrakurikuler.Any(e => e.EkstrakurikulerId == id);
         }
     }
 }
