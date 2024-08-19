@@ -1,0 +1,46 @@
+﻿@model IEnumerable<siekskul.Models.PendaftaranEkstrakurikuler>
+
+@{
+    ViewData["Title"] = "Daftar Pendaftaran";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Daftar Pendaftaran Ekstrakurikuler</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama Siswa</th>
+                                    <th>Ekstrakurikuler</th>
+                                    <th>Tanggal Pendaftaran</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Siswa.User.FullName</td>
+                                        <td>@item.Ekstrakurikuler.Nama</td>
+                                        <td>@item.TanggalPendaftaran.ToShortDateString()</td>
+                                        <td>@item.Status</td>
+                                        <td>
+                                            <!-- Add actions for managing registrations -->
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<siekskul.Models.PendaftaranEkstrakurikuler>
+
+@{
+    ViewData["Title"] = "Status Pendaftaran";
+}
+
+<h1>Status Pendaftaran Ekstrakurikuler</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ekstrakurikuler</th>
+            <th>Tanggal Pendaftaran</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Ekstrakurikuler.Nama</td>
+                <td>@item.TanggalPendaftaran.ToShortDateString()</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

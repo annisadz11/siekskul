@@ -1,0 +1,32 @@
+﻿@model siekskul.Models.Ekstrakurikuler
+
+@{
+    ViewData["Title"] = "Daftar Ekstrakurikuler";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Daftar Ekstrakurikuler</h5>
+                </div>
+                <div class="card-body">
+                    <h3>Apakah Anda yakin ingin mendaftar ke ekstrakurikuler ini?</h3>
+                    <dl class="row">
+                        <dt class="col-sm-3">Nama</dt>
+                        <dd class="col-sm-9">@Model.Nama</dd>
+                        <dt class="col-sm-3">Deskripsi</dt>
+                        <dd class="col-sm-9">@Model.Deskripsi</dd>
+                    </dl>
+
+                    <form asp-action="DaftarConfirm">
+                        <input type="hidden" asp-for="EkstrakurikulerId" />
+                        <button type="submit" class="btn btn-primary">Daftar</button>
+                        <a asp-controller="SiswaEkstrakurikuler" asp-action="Index" class="btn btn-secondary">Batal</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

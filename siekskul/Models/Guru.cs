@@ -18,5 +18,6 @@ namespace siekskul.Models
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<Ekstrakurikuler> Ekstrakurikuler { get; set; }
     }
 }

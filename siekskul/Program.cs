@@ -19,7 +19,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LogoutPath = "/Auth/Logout";
 
     });
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("GuruOnly", policy => policy.RequireRole("Guru"));
+    options.AddPolicy("SiswaOnly", policy => policy.RequireRole("Siswa"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

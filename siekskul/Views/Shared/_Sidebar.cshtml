@@ -3,59 +3,51 @@
     <!-- App brand starts -->
     <div class="app-brand px-5 py-3 d-flex align-items-center">
         <a href="index.html">
-			<img src="~/assets/images/logosd.png" class="logo" alt="Bootstrap Gallery" style="width: 150px; height: auto;" />
+            <img src="~/assets/images/logosd.png" class="logo" alt="Bootstrap Gallery" style="width: 150px; height: auto;" />
         </a>
-    </div>    <!-- App brand ends -->
-@*     <!-- Sidebar profile starts -->
-    <div class="sidebar-user-profile">
-        <img src="~/assets/images/user.png" class="profile-thumb rounded-2 p-2 d-lg-flex d-none"
-             alt="Bootstrap Gallery" />
-        <h5 class="profile-name lh-lg mt-2 text-truncate">Annisa Dzikra</h5>
-        <ul class="profile-actions d-flex m-0 p-0">
-            <li>
-                <a href="javascript:void(0)">
-                    <i class="bi bi-skype fs-4"></i>
-                    <span class="count-label"></span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:void(0)">
-                    <i class="bi bi-dribbble fs-4"></i>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:void(0)">
-                    <i class="bi bi-twitter fs-4"></i>
-                </a>
-            </li>
-        </ul>
     </div>
-    <!-- Sidebar profile ends --> *@
+    <!-- App brand ends -->
     <!-- Sidebar menu starts -->
     <div class="sidebarMenuScroll">
         <ul class="sidebar-menu">
             <li class="active current-page">
-                <a href="Index">
+                <a asp-controller="Home" asp-action="Index">
                     <i class="bi bi-bar-chart-line"></i>
-                    <span class="menu-text">Dashboards</span>
+                    <span class="menu-text">Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a asp-controller="Ekstrakurikulers" asp-action="Index">
-                    <i class="bi bi-columns-gap"></i>
-                    <span class="menu-text">List Ekstrakurikuler</span>
-                </a>
-            </li>
-
-            <li>
-                <a asp-controller="Ekstrakurikulers" asp-action="Index">
-                    <i class="bi bi-clipboard-data"></i>
-                    <span class="menu-text">Daftar Ekstrakurikuler</span>
-                </a>
-            </li>
+            @if (User.IsInRole("Siswa"))
+            {
+                <li>
+                    <a asp-controller="Ekstrakurikuler" asp-action="ListForSiswa">
+                        <i class="bi bi-columns-gap"></i>
+                        <span class="menu-text">List Ekstrakurikuler</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Pendaftaran" asp-action="Status">
+                        <i class="bi bi-clipboard-check"></i>
+                        <span class="menu-text">Status Pendaftaran</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("Guru"))
+            {
+                <li>
+                    <a asp-controller="Ekstrakurikuler" asp-action="Index">
+                        <i class="bi bi-clipboard-data"></i>
+                        <span class="menu-text">Manajemen Ekstrakurikuler</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Ekstrakurikuler" asp-action="PendaftaranList">
+                        <i class="bi bi-person-plus"></i>
+                        <span class="menu-text">Daftar Pendaftaran</span>
+                    </a>
+                </li>
+            }
         </ul>
     </div>
     <!-- Sidebar menu ends -->
-
 </nav>
 <!-- Sidebar wrapper end -->

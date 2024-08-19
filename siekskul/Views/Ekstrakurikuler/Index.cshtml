@@ -1,0 +1,23 @@
+﻿@model IEnumerable<siekskul.Models.Ekstrakurikuler>
+
+@{
+    ViewData["Title"] = "Daftar Ekstrakurikuler";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Nama</h5>
+                        <p class="card-text">@item.Deskripsi</p>
+                        <p class="card-text"><small class="text-muted">Pembimbing: @item.Guru.User.FullName</small></p>
+                        <a asp-action="Details" asp-route-id="@item.EkstrakurikulerId" class="btn btn-primary">Detail</a>
+                    </div>
+                </div>
+            </div>
+    }
+</div>

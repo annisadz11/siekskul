@@ -1,0 +1,52 @@
+﻿@model siekskul.Models.Ekstrakurikuler
+
+@{
+    ViewData["Title"] = "Detail Ekstrakurikuler";
+}
+
+<h1>@Model.Nama</h1>
+@if (User.IsInRole("Siswa"))
+{
+    <a asp-action="Daftar" asp-route-id="@Model.EkstrakurikulerId" class="btn btn-success">Daftar Ekstrakurikuler</a>
+}
+<div>
+    <h4>Detail Ekstrakurikuler</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Nama</dt>
+        <dd class="col-sm-9">@Model.Nama</dd>
+
+        <dt class="col-sm-3">Deskripsi</dt>
+        <dd class="col-sm-9">@Model.Deskripsi</dd>
+
+        <dt class="col-sm-3">Pembimbing</dt>
+        <dd class="col-sm-9">@Model.Guru.User.FullName</dd>
+    </dl>
+</div>
+
+<h4>Jadwal</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Hari</th>
+            <th>Waktu Mulai</th>
+            <th>Waktu Selesai</th>
+            <th>Lokasi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var jadwal in Model.Jadwal)
+        {
+                <tr>
+                    <td>@jadwal.Hari</td>
+                    <td>@jadwal.WaktuMulai.ToString(@"hh\:mm")</td>
+                    <td>@jadwal.WaktuSelesai.ToString(@"hh\:mm")</td>
+                    <td>@jadwal.Lokasi</td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Kembali ke Daftar</a>
+</div>
